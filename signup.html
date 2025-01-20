@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamesFree</title>
+    <link rel="icon" href="videos/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+        <!-- Signup Page -->
+        <div id="signup" class="page">
+            <div class="form-container">
+                <h2 class="signbuttom">Sign Up</h2>
+                <input type="text" id="signup-name" placeholder="Enter your name" required>
+                <input type="email" id="signup-email" placeholder="Enter your email" required>
+                <input type="password" id="signup-password" placeholder="Enter your password" required>
+                <button id="signup-btn">Sign Up</button>
+                <p id="signup-error" style="color: red; display: none;">Please fill in all fields.</p>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login" class="page hidden">
+            <div class="form-container">
+                <h2 class="signbuttom">Login</h2>
+                <input type="email" id="login-email" placeholder="Enter your email" required>
+                <input type="password" id="login-password" placeholder="Enter your password" required>
+                <button id="login-btn">Login</button>
+                <p id="login-error" style="color: red; display: none;">Invalid email or password.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="social-links">
+            <h4>Follow Us</h4>
+            <a href="https://instagram.com/GamesFree" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+            <a href="https://facebook.com/GamesFree" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a>
+            <a href="https://twitter.com/GamesFree" target="_blank"><i class="fa-brands fa-twitter"></i> Twitter</a>
+        </div>
+    </footer>
+    <script>
+        
+// Navigation functionality
+const pages = document.querySelectorAll('.page');
+const navLinks = document.querySelectorAll('nav a');
+
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        const targetPage = link.getAttribute('data-page');
+
+        pages.forEach(page => {
+            page.classList.add('hidden');
+        });
+
+        document.getElementById(targetPage).classList.remove('hidden');
+    });
+});
+
+// Signup Functionality
+document.getElementById('signup-btn').addEventListener('click', () => {
+    const name = document.getElementById('signup-name').value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    if (name && email && password) {
+        localStorage.setItem('user', JSON.stringify({ name, email, password }));
+        alert('Sign Up Successful! Redirecting to Login page...');
+
+        document.getElementById('signup').classList.add('hidden');
+        document.getElementById('login').classList.remove('hidden');
+    } else {
+        alert('Please fill in all fields.');
+    }
+    
+});
+
+// Login Functionality
+document.getElementById('login-btn').addEventListener('click', () => {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user && user.email === email && user.password === password) {
+        alert(`Welcome back, ${user.name}! Redirecting to the homepage...`);
+        window.location.href = 'index.html'; // Redirect to the homepage
+    } else {
+        alert('Invalid email or password. Please try again.');
+    }
+});
+
+    </script>
+</body>
+</html>
